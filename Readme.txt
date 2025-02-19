@@ -1,6 +1,6 @@
-Thanks for downloading this template!
+Hndy works inc
 
-Template Name: Flexor
-Template URL: https://bootstrapmade.com/flexor-free-multipurpose-bootstrap-template/
+Name: Handy works 
+URL:
 Author: BootstrapMade.com
-License: https://bootstrapmade.com/license/
+License: MIT
