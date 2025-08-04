@@ -102,7 +102,7 @@ h6 {
 .get-app-container {
   display: inline-block;
   padding: 14px 20px;
-  background-color:#FF851B; /* Primary color */
+  background-color:#007bff; /* Primary color */
   color: white;
   text-align: center;
   font-size: 18px;
@@ -113,7 +113,7 @@ h6 {
 }
 
 .get-app-container:hover {
-  background-color:#F28500; /* Darker blue on hover */
+  background-color:#00bfff; /* Darker blue on hover */
   
   
 }
