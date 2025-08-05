@@ -171,5 +171,56 @@
   }
   window.addEventListener('load', navScrollspy);
   document.addEventListener('scroll', navScrollspy);
-
+//dont use this api i will sue you to a subjected fee !!!!!!
 })();
+// main.js (type="module")
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCLwqATspz6NOUiQsLew-IeQkqgZc7p6c4",
+  authDomain: "sign-up-bdf27.firebaseapp.com",
+  projectId: "sign-up-bdf27",
+  storageBucket: "sign-up-bdf27.appspot.com",
+  messagingSenderId: "894618638610",
+  appId: "1:894618638610:web:d66d7ea68da8090df7bbcb"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// DOM loaded
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById('newsletter-form');
+  const emailInput = form.querySelector('input[name="email"]');
+  const loading = form.querySelector('.loading');
+  const errorMessage = form.querySelector('.error-message');
+  const sentMessage = form.querySelector('.sent-message');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loading.style.display = 'block';
+    errorMessage.style.display = 'none';
+    sentMessage.style.display = 'none';
+
+    try {
+      const email = emailInput.value.trim();
+      if (!email) throw new Error("Email is required.");
+
+      await addDoc(collection(db, "newsletter_subscribers"), {
+        email: email,
+        subscribedAt: new Date()
+      });
+
+      loading.style.display = 'none';
+      sentMessage.style.display = 'block';
+      form.reset();
+    } catch (err) {
+      loading.style.display = 'none';
+      errorMessage.textContent = err.message;
+      errorMessage.style.display = 'block';
+    }
+  });
+});
