@@ -970,17 +970,19 @@
         <div class="col-lg-4 col-md-12 footer-newsletter">
           <h4>Our Newsletter</h4>
           <p>Subscribe to our newsletter and receive the latest news about our services!</p>
-          <form id="newsletter-form" class="php-email-form">
+
+          <form id="newsletter-form" class="php-email-form" novalidate>
             <div class="newsletter-form">
-              <input type="email" name="email" required>
+              <input type="email" name="email" placeholder="Enter your email" required>
               <input type="submit" value="Subscribe">
             </div>
-            <div class="loading" style="display:none;">Loading</div>
-            <div class="error-message" style="display:none;color:red;"></div>
-            <div class="sent-message" style="display:none;color:green;">Your subscription request has been sent. Thank
+            <div class="loading" style="display:none; color:#777;">Loading...</div>
+            <div class="error-message" style="display:none; color:red;"></div>
+            <div class="sent-message" style="display:none; color:green;">Your subscription request has been sent. Thank
               you!</div>
           </form>
         </div>
+
 
 
         <div class="container copyright text-center mt-4">

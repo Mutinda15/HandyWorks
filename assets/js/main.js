@@ -171,13 +171,20 @@
   }
   window.addEventListener('load', navScrollspy);
   document.addEventListener('scroll', navScrollspy);
-//dont use this api i will sue you to a subjected fee !!!!!!
-})();
-// main.js (type="module")
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-// Firebase configuration
+})();
+// main.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCLwqATspz6NOUiQsLew-IeQkqgZc7p6c4",
   authDomain: "sign-up-bdf27.firebaseapp.com",
@@ -191,9 +198,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// DOM loaded
+// Run after DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById('newsletter-form');
+  const form = document.getElementById("newsletter-form");
   const emailInput = form.querySelector('input[name="email"]');
   const loading = form.querySelector('.loading');
   const errorMessage = form.querySelector('.error-message');
@@ -201,14 +208,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // Reset messages
     loading.style.display = 'block';
     errorMessage.style.display = 'none';
     sentMessage.style.display = 'none';
 
     try {
-      const email = emailInput.value.trim();
+      const email = emailInput.value.trim().toLowerCase();
       if (!email) throw new Error("Email is required.");
+      if (!validateEmail(email)) throw new Error("Please enter a valid email.");
 
+      // 🔎 Check for duplicates
+      const q = query(collection(db, "newsletter_subscribers"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) throw new Error("You're already subscribed!");
+
+      // ✅ Add to Firestore
       await addDoc(collection(db, "newsletter_subscribers"), {
         email: email,
         subscribedAt: new Date()
@@ -224,3 +240,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// ✅ Simple email format validation
+function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
